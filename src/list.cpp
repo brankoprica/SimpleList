@@ -22,7 +22,7 @@ void List::print_menu() {
         delete_item();
     }
     else if(choice == 4) {
-        exit(0);
+        return;
     }
     else {
         cout << "Sorry, choice hasn't been implemented.\n\n\n";
