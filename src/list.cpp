@@ -7,7 +7,8 @@ void List::print_menu() {
     cout << " 1 - Print list.\n";
     cout << " 2 - Add to list.\n";
     cout << " 3 - Delete from list.\n";
-    cout << " 4 - Quit.\n";
+    cout << " 4 - Save list.\n";
+    cout << " 5 - Quit.\n";
     cout << " Enter your choice and press return/enter.\n";
 
     cin >> choice;
@@ -22,6 +23,9 @@ void List::print_menu() {
         delete_item();
     }
     else if(choice == 4) {
+        save_list();
+    }
+    else if(choice == 5) {
         return;
     }
     else {
@@ -60,6 +64,9 @@ void List::delete_item() {
         for(unsigned int i=0; i < list.size(); i++){
             cout << i << ": " << list[i] << "\n";            
         }
+        int choiceNum;
+        cin >> choiceNum;
+        list.erase(list.begin()+choiceNum);
     }
     else {
         cout << "No items in the list or to delete.\n\n\n";
@@ -95,7 +102,7 @@ void List::print_list() {
 
 }
 
-void List::find_userList() {
+bool List::find_userList() {
     bool userFound = false;
     cout << "\n\n\n";
     cout << "*** Welcome " << name << " ***\n";
@@ -105,8 +112,24 @@ void List::find_userList() {
         if(mainList[user_index][0] == name) {
             cout << "User has been found: " << mainList[user_index][0] << "\n";
             list = mainList[user_index];
+            currentUserIndex = user_index;
             userFound = true;
             break;
         }
     }
+
+    if(userFound == false){
+        list.push_back(name);
+        mainList.push_back(list);
+        currentUserIndex = mainList.size()-1;
+    }
+
+    return userFound;
+}
+
+void List::save_list() {
+    cout << "Saving the list...\n";
+    mainList[currentUserIndex] = list;
+    data.write(mainList);
+    print_menu();
 }
